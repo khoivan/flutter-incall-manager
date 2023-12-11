@@ -19,10 +19,11 @@ class IncallManager {
   }
 
   /// Start InCallManager
-  Future<void> start(
-      {bool auto = true,
-      MediaType media = MediaType.AUDIO,
-      String ringback}) async {
+  Future<void> start({
+    bool auto = true,
+    MediaType media = MediaType.AUDIO,
+    String? ringback,
+  }) async {
     await _channel.invokeMethod('start', <String, dynamic>{
       'media': media == MediaType.AUDIO ? 'audio' : 'video',
       'auto': auto,
@@ -31,9 +32,13 @@ class IncallManager {
   }
 
   /// Stop InCallManager
-  Future<void> stop({String busytone}) async {
-    await _channel
-        .invokeMethod('stop', <String, dynamic>{'busytone': busytone});
+  Future<void> stop({
+    String? busytone,
+  }) async {
+    await _channel.invokeMethod(
+      'stop',
+      <String, dynamic>{'busytone': busytone},
+    );
   }
 
   Future<void> setKeepScreenOn(bool enabled) async {
@@ -184,7 +189,7 @@ class IncallManager {
         bool isNear = event['isNear'];
         onProximity.add(isNear);
         break;
-      /* ----- For Android only ------ */
+      /* ----- For Android only ---onMediaButton--- */
       case 'NoisyAudio': //noisy audio
         String status = event['status'];
         print("NoisyAudio:status:$status");
